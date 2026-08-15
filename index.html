@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FDFCF8; --surface:#FFFFFF; --ink:#14212E; --ink2:#4A5866; --mute:#8A96A3;
+  --bg:#FDFCF8; --surface:#FFFFFF; --ink:#14212E; --ink2:#4A5866; --mute:#68727D;
   --line:#E5E2DA; --asphalt:#22323F;
   --red:#C8102E; --jade:#0E7A57; --saffron:#E9930B; --sky:#1668C2;
   --pad:18px; --r:16px;
@@ -41,7 +41,7 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
               mask:repeating-linear-gradient(90deg,#000 0 22px,transparent 22px 36px);
       opacity:.16;margin:22px 0}
 
-.top{position:sticky;top:0;z-index:30;background:rgba(253,252,248,.94);backdrop-filter:blur(10px);
+.top{position:sticky;top:0;z-index:30;background:rgba(253,252,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
      border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
 .top .row{display:flex;align-items:center;gap:12px;height:58px}
 .back{font-size:20px;width:38px;height:38px;display:grid;place-items:center;margin-left:-9px;border-radius:10px}
@@ -100,14 +100,16 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
       border:1.5px solid var(--line);color:var(--ink2);border-radius:99px;padding:4px 10px}
 .chip.red{background:var(--red);border-color:var(--red);color:#fff}
 .qtext{font-size:19.5px;font-weight:700;line-height:1.45;margin:0 0 16px;letter-spacing:-.012em}
-.figure{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px;margin-bottom:16px}
+.figure{display:block;width:100%;background:#fff;border:1px solid var(--line);
+         border-radius:13px;padding:9px;margin-bottom:16px}
 .figure img{width:100%;display:block;border-radius:7px}
 .figure{position:relative;cursor:zoom-in}
 .figure::after{content:'⤢ chạm để phóng to';position:absolute;right:14px;bottom:14px;
   background:rgba(20,33,46,.72);color:#fff;font-size:11px;padding:4px 9px;border-radius:99px;pointer-events:none}
 .zoom{position:fixed;inset:0;z-index:90;background:rgba(10,16,22,.94);display:grid;place-items:center;padding:14px}
 .zoom img{max-width:100%;max-height:88vh;border-radius:10px;background:#fff}
-.zoom span{position:absolute;top:calc(14px + env(safe-area-inset-top));right:18px;color:#fff;font-size:30px;line-height:1}
+.zoom button{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;
+  width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:26px;line-height:1}
 .opts{display:grid;gap:11px}
 .opt{display:flex;gap:13px;align-items:flex-start;width:100%;background:var(--surface);min-height:56px;
      border:1.8px solid var(--line);border-radius:13px;padding:16px 15px;font-size:15.5px;line-height:1.45}
@@ -132,7 +134,7 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
            color:var(--asphalt);margin-bottom:6px}
 .chip.alt{border-style:dashed;color:var(--mute)}
 
-.navbar{position:sticky;bottom:0;z-index:20;background:rgba(253,252,248,.94);backdrop-filter:blur(10px);
+.navbar{position:sticky;bottom:0;z-index:20;background:rgba(253,252,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
         border-top:1px solid var(--line);padding:11px 0 max(11px,env(safe-area-inset-bottom))}
 .navbar .row{display:flex;gap:10px}
 .btn{flex:1;border:1.8px solid var(--line);background:var(--surface);border-radius:13px;padding:17px 15px;
@@ -220,6 +222,14 @@ async function boot(){
     const d=await r.json();
     QS=(d.questions||[]).filter(q=>q&&q.text&&Array.isArray(q.options)&&q.answer);
     if(!QS.length)throw new Error('Bộ câu hỏi trống');
+    const bad=[], seen=new Set();
+    QS.forEach(q=>{
+      if(seen.has(q.id))bad.push('trùng id '+q.id); else seen.add(q.id);
+      if(!Number.isInteger(q.answer)||q.answer<1||q.answer>q.options.length)
+        bad.push('đáp án sai ở câu '+q.id);
+      if(q.options.length<2)bad.push('thiếu lựa chọn ở câu '+q.id);
+    });
+    if(bad.length)throw new Error('Dữ liệu lỗi: '+bad.slice(0,5).join(', '));
     QS.forEach(q=>BY[q.id]=q);
     home();
   }catch(e){
@@ -233,6 +243,7 @@ function chrome(t,{clock=false,prog=null}={}){
 }
 function nav(h){const n=$('nav');if(!h){n.hidden=true;return}n.hidden=false;$('navInner').innerHTML=h}
 function view(h){
+  document.querySelectorAll('.zoom').forEach(z=>z.remove());
   $('view').innerHTML=`<div class="wrap fade">${h}</div>`;
   const top=$('top');
   if(!top.hidden && scrollY>0) scrollTo({top:0,behavior:'instant'});
@@ -244,8 +255,14 @@ function savedExam(){
   if(!s||!Array.isArray(s.ids)||typeof s.endAt!=='number')return null;
   if(s.endAt-Date.now()<5000)  {store.set(EXKEY,null);return null}
   const paper=s.ids.map(id=>BY[id]).filter(Boolean);
-  if(paper.length!==s.ids.length)  {store.set(EXKEY,null);return null}
-  return {paper,ans:s.ans||{},i:s.i||0,endAt:s.endAt,done:false};
+  if(paper.length!==s.ids.length||paper.length!==EXAM.n){store.set(EXKEY,null);return null}
+  const ok=new Set(paper.map(q=>q.id)), ans={};
+  for(const[k,v]of Object.entries(s.ans||{})){
+    const id=+k, q=BY[id];
+    if(ok.has(id)&&Number.isInteger(v)&&v>=1&&v<=q.options.length)ans[id]=v;
+  }
+  const i=Math.min(Math.max(0,Number(s.i)||0),EXAM.n-1);
+  return {paper,ans,i,endAt:s.endAt,done:false};
 }
 function home(){
   S.screen='home';stopTimer();wake(false);$('top').hidden=true;nav('');
@@ -363,7 +380,8 @@ function qHTML(q,picked,mode){
             ${q.critical?'<span class="chip red">ĐIỂM LIỆT</span>':''}
             ${q.only_in?'<span class="chip alt">Câu bổ sung</span>':''}</div>
           <p class="qtext">${esc(q.text)}</p>
-          ${q.image?`<div class="figure"><img src="${esc(q.image)}" alt="Hình của câu ${q.id}"></div>`:''}
+          ${q.image?`<button type="button" class="figure" aria-label="Hình của câu ${q.id} — chạm để phóng to">
+              <img src="${esc(q.image)}" alt="Hình minh hoạ của câu ${q.id}"></button>`:''}
           <div class="opts" role="group">${opts}</div>${v}${ex}`;
 }
 
@@ -402,8 +420,14 @@ function drawExam(){
     if(e.lock)return;
     const first=!e.ans[q.id];
     e.ans[q.id]=+o.dataset.i;saveExam();drawExam();
-    if(first&&e.i<EXAM.n-1){e.lock=true;
-      setTimeout(()=>{e.lock=false;if(S.screen==='exam'&&!e.done){e.i++;drawExam()}},220)}
+    if(first&&e.i<EXAM.n-1){
+      const from=e.i; e.lock=true;
+      setTimeout(()=>{
+        e.lock=false;
+        // 그 사이 스와이프·번호·다음 버튼으로 이미 이동했다면 넘기지 않는다
+        if(S.screen==='exam'&&!e.done&&e.i===from&&e.i<EXAM.n-1){e.i++;saveExam();drawExam()}
+      },450);
+    }
   });
   $('view').querySelectorAll('.dot').forEach(d=>d.onclick=()=>{e.i=+d.dataset.n;saveExam();drawExam()});
   const nx=e.paper[e.i+1];if(nx&&nx.image)new Image().src=nx.image;
@@ -482,11 +506,15 @@ addEventListener('pagehide',saveExam);
 /* 좌우 스와이프로 문항 이동 */
 let tX=0,tY=0,tT=0;
 $('view').addEventListener('touchstart',e=>{
-  const t=e.changedTouches[0];tX=t.clientX;tY=t.clientY;tT=Date.now();
+  const t=e.changedTouches[0];
+  // 화면 좌우 가장자리에서 시작한 제스처는 사파리 뒤로가기이므로 건드리지 않는다
+  if(t.clientX<36||t.clientX>innerWidth-36){tT=0;return}
+  tX=t.clientX;tY=t.clientY;tT=Date.now();
 },{passive:true});
 $('view').addEventListener('touchend',e=>{
   const t=e.changedTouches[0], dx=t.clientX-tX, dy=t.clientY-tY;
-  if(Date.now()-tT>600||Math.abs(dx)<70||Math.abs(dy)>50)return;
+  if(!tT||Date.now()-tT>600||Math.abs(dx)<70||Math.abs(dy)>50)return;
+  if(Math.abs(dx)<Math.abs(dy)*1.5)return;
   const back=dx>0;
   if(S.screen==='study'){
     const st=S.study;
@@ -504,9 +532,13 @@ $('view').addEventListener('click',e=>{
   const f=e.target.closest('.figure');if(!f)return;
   const src=f.querySelector('img')?.getAttribute('src');if(!src)return;
   const z=document.createElement('div');
-  z.className='zoom';z.innerHTML=`<span aria-hidden="true">×</span><img src="${src}" alt="">`;
-  z.onclick=()=>z.remove();
+  z.className='zoom';z.setAttribute('role','dialog');z.setAttribute('aria-modal','true');
+  z.innerHTML=`<button type="button" aria-label="Đóng">×</button><img src="${src}" alt="Hình phóng to">`;
+  const close=()=>{z.remove();f.focus()};
+  z.onclick=close;
+  z.addEventListener('keydown',ev=>{if(ev.key==='Escape')close()});
   document.body.appendChild(z);
+  z.querySelector('button').focus();
 });
 
 $('back').onclick=()=>{
