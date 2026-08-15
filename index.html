@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ôn thi lý thuyết A1</title>
+<title>Ánh lấy bằng A1 🛵</title>
 <meta name="theme-color" content="#14212E">
+<meta name="robots" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Thi A1">
+<meta name="apple-mobile-web-app-title" content="Bằng A1 🛵">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -20,7 +21,7 @@
   --sans:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;
      -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
@@ -53,11 +54,21 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
 .pbar{height:3px;background:var(--line)}
 .pbar i{display:block;height:100%;background:var(--sky);width:0;transition:width .25s}
 
-.hero{padding:38px 0 4px}
+.hero{padding:34px 0 4px}
+.hero .who{font-size:15px;color:var(--ink2);margin:14px 0 0}
+.goal{margin-top:18px;background:var(--surface);border:1px solid var(--line);
+      border-radius:var(--r);padding:16px 17px}
+.goal__top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;color:var(--ink2)}
+.goal__top b{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--ink)}
+.goal__bar{height:9px;background:var(--line);border-radius:5px;margin-top:11px;overflow:hidden}
+.goal__bar i{display:block;height:100%;border-radius:5px;transition:width .45s cubic-bezier(.2,.8,.3,1);
+             background:linear-gradient(90deg,var(--jade),#3FB98A)}
+.goal__msg{margin-top:10px;font-size:13px;color:var(--muted)}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;
          letter-spacing:.16em;text-transform:uppercase;color:var(--red);
          border:1.5px solid var(--red);border-radius:99px;padding:5px 12px}
-.hero h1{font-size:clamp(30px,8vw,40px);margin:16px 0 12px}
+.hero h1{font-size:clamp(25px,6.8vw,38px);margin:16px 0 12px;text-wrap:balance;word-break:keep-all}
+.hero h1 .nm{color:var(--jade)}
 .hero p{margin:0;color:var(--ink2);font-size:14.5px}
 .hero b{font-family:var(--mono);font-weight:600;color:var(--ink)}
 
@@ -91,9 +102,15 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
 .qtext{font-size:19.5px;font-weight:700;line-height:1.45;margin:0 0 16px;letter-spacing:-.012em}
 .figure{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px;margin-bottom:16px}
 .figure img{width:100%;display:block;border-radius:7px}
+.figure{position:relative;cursor:zoom-in}
+.figure::after{content:'⤢ chạm để phóng to';position:absolute;right:14px;bottom:14px;
+  background:rgba(20,33,46,.72);color:#fff;font-size:11px;padding:4px 9px;border-radius:99px;pointer-events:none}
+.zoom{position:fixed;inset:0;z-index:90;background:rgba(10,16,22,.94);display:grid;place-items:center;padding:14px}
+.zoom img{max-width:100%;max-height:88vh;border-radius:10px;background:#fff}
+.zoom span{position:absolute;top:calc(14px + env(safe-area-inset-top));right:18px;color:#fff;font-size:30px;line-height:1}
 .opts{display:grid;gap:11px}
-.opt{display:flex;gap:13px;align-items:flex-start;width:100%;background:var(--surface);
-     border:1.8px solid var(--line);border-radius:13px;padding:15px 15px 15px 14px;font-size:15.5px;line-height:1.45}
+.opt{display:flex;gap:13px;align-items:flex-start;width:100%;background:var(--surface);min-height:56px;
+     border:1.8px solid var(--line);border-radius:13px;padding:16px 15px;font-size:15.5px;line-height:1.45}
 .opt:active{transform:scale(.99)}
 .opt .k{flex:none;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;
         font-family:var(--mono);font-size:13px;font-weight:600;background:var(--line);color:var(--ink2);margin-top:1px}
@@ -118,13 +135,13 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;tex
 .navbar{position:sticky;bottom:0;z-index:20;background:rgba(253,252,248,.94);backdrop-filter:blur(10px);
         border-top:1px solid var(--line);padding:11px 0 max(11px,env(safe-area-inset-bottom))}
 .navbar .row{display:flex;gap:10px}
-.btn{flex:1;border:1.8px solid var(--line);background:var(--surface);border-radius:13px;padding:15px;
+.btn{flex:1;border:1.8px solid var(--line);background:var(--surface);border-radius:13px;padding:17px 15px;
      font-weight:700;font-size:15.5px;text-align:center}
 .btn:active{transform:scale(.985)}
 .btn.go{background:var(--sky);border-color:var(--sky);color:#fff}
 .btn.fin{background:var(--jade);border-color:var(--jade);color:#fff}
 .btn[disabled]{opacity:.35;pointer-events:none}
-.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:7px;margin:22px 0 8px}
+.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:8px;margin:22px 0 8px}
 .dot{position:relative;aspect-ratio:1;border:1.8px solid var(--line);border-radius:11px;background:var(--surface);
      font-family:var(--mono);font-size:13px;font-weight:600;display:grid;place-items:center}
 .dot.done{background:var(--asphalt);color:#fff;border-color:var(--asphalt)}
@@ -175,7 +192,15 @@ const CH={
   4:{name:'Báo hiệu đường bộ',pick:8},
   5:{name:'Sa hình & xử lý tình huống',pick:6}
 };
+const NAME = 'Phương Ngọc Anh';   // ← 여기만 바꾸면 화면 전체에 반영됨
 const EXAM={n:25,pass:21,minutes:19}, EXKEY='exam_v1';
+const cheer = p =>
+  p===0   ? 'Bắt đầu từ 20 câu điểm liệt nhé — quan trọng nhất đấy 💪' :
+  p<25    ? 'Khởi động tốt rồi! Mỗi ngày một chút thôi 🌱' :
+  p<50    ? 'Được gần một phần tư chặng đường rồi đó 🚀' :
+  p<75    ? 'Quá nửa rồi! Cố lên nhé ✨' :
+  p<100   ? 'Sắp xong rồi, chạy nước rút thôi 🔥' :
+            'Thuộc hết 252 câu rồi! Đi thi thôi 🎉';
 let QS=[],BY={};
 const S={screen:'home',exam:null,study:null,timer:null,wake:null};
 
@@ -207,7 +232,11 @@ function chrome(t,{clock=false,prog=null}={}){
   $('pbar').style.width=prog==null?'0%':(prog*100)+'%';
 }
 function nav(h){const n=$('nav');if(!h){n.hidden=true;return}n.hidden=false;$('navInner').innerHTML=h}
-function view(h){$('view').innerHTML=`<div class="wrap fade">${h}</div>`}
+function view(h){
+  $('view').innerHTML=`<div class="wrap fade">${h}</div>`;
+  const top=$('top');
+  if(!top.hidden && scrollY>0) scrollTo({top:0,behavior:'instant'});
+}
 
 /* ── 홈 ── */
 function savedExam(){
@@ -228,9 +257,14 @@ function home(){
   const standalone=navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;
   view(`
     <section class="hero">
-      <span class="eyebrow">Hạng A1 · A</span>
-      <h1>Ôn thi lý thuyết<br>lái xe mô tô</h1>
-      <p>Đề thi <b>25</b> câu trong <b>19</b> phút · đạt <b>21/25</b> và không sai câu điểm liệt</p>
+      <span class="eyebrow">🛵 Dự án lấy bằng A1</span>
+      <h1><span class="nm">${NAME}</span> ơi,<br>mình cùng đậu nhé!</h1>
+      <p class="who">Đề thi <b>25</b> câu trong <b>19</b> phút · đạt <b>21/25</b> và không sai câu điểm liệt</p>
+      <div class="goal">
+        <div class="goal__top"><span>Đã thuộc <b>${learned.size}</b> / ${QS.length} câu</span><b>${pct}%</b></div>
+        <div class="goal__bar"><i style="width:${pct}%"></i></div>
+        <div class="goal__msg">${cheer(pct)}</div>
+      </div>
     </section>
     <div class="lane"></div>
     <div class="grid">
@@ -407,8 +441,8 @@ function finish(){
       <span class="badge">${pass?'ĐẠT':'CHƯA ĐẠT'}</span>
       <div class="big">${right}<span>/${EXAM.n}</span></div>
       <div class="sub">${critBad?'Sai câu điểm liệt — theo quy chế thi thật là trượt, dù các câu khác đúng.'
-        :pass?'Đúng chuẩn kỳ sát hạch thật. Giữ nhịp này nhé.'
-        :`Cần đúng ít nhất ${EXAM.pass}/${EXAM.n} và không sai câu điểm liệt. Xem lại câu sai rồi thi tiếp nhé.`}</div>
+        :pass?`Chuẩn kỳ sát hạch thật luôn. Giỏi quá ${NAME} ơi 🎉`
+        :`Cần đúng ít nhất ${EXAM.pass}/${EXAM.n} và không sai câu điểm liệt. Xem lại câu sai rồi thi tiếp nhé ${NAME} 💪`}</div>
     </div>
     <div class="stats">
       <div class="stat"><b>${right}</b><span>ĐÚNG</span></div>
@@ -444,6 +478,36 @@ document.addEventListener('visibilitychange',()=>{
   if(S.screen==='exam'&&S.exam&&!S.exam.done){left()<=0?finish():(tick(),wake(true))}
 });
 addEventListener('pagehide',saveExam);
+
+/* 좌우 스와이프로 문항 이동 */
+let tX=0,tY=0,tT=0;
+$('view').addEventListener('touchstart',e=>{
+  const t=e.changedTouches[0];tX=t.clientX;tY=t.clientY;tT=Date.now();
+},{passive:true});
+$('view').addEventListener('touchend',e=>{
+  const t=e.changedTouches[0], dx=t.clientX-tX, dy=t.clientY-tY;
+  if(Date.now()-tT>600||Math.abs(dx)<70||Math.abs(dy)>50)return;
+  const back=dx>0;
+  if(S.screen==='study'){
+    const st=S.study;
+    if(back){if(st.i>0){st.i--;drawStudy()}}
+    else if(st.i<st.list.length-1){st.i++;drawStudy()}
+  }else if(S.screen==='exam'&&!S.exam.done){
+    const e2=S.exam;
+    if(back){if(e2.i>0){e2.i--;saveExam();drawExam()}}
+    else if(e2.i<EXAM.n-1){e2.i++;saveExam();drawExam()}
+  }
+},{passive:true});
+
+/* 그림 탭하면 전체화면으로 */
+$('view').addEventListener('click',e=>{
+  const f=e.target.closest('.figure');if(!f)return;
+  const src=f.querySelector('img')?.getAttribute('src');if(!src)return;
+  const z=document.createElement('div');
+  z.className='zoom';z.innerHTML=`<span aria-hidden="true">×</span><img src="${src}" alt="">`;
+  z.onclick=()=>z.remove();
+  document.body.appendChild(z);
+});
 
 $('back').onclick=()=>{
   if(S.screen==='exam'&&!S.exam.done){
