@@ -3,362 +3,392 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ôn thi lý thuyết A1 — 250 câu</title>
-<meta name="theme-color" content="#101418">
+<title>Ôn thi lý thuyết A1</title>
+<meta name="theme-color" content="#14212E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thi A1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-/* ── tokens ───────────────────────────────────────────────
-   Palette borrowed from Vietnamese road signs, used semantically:
-   cam (red)   = biển cấm  → điểm liệt / sai
-   lenh (blue) = biển hiệu lệnh → hành động chính
-   nguy (amber)= biển nguy hiểm → cần xem lại
-   ─────────────────────────────────────────────────────── */
 :root{
-  --paper:#F7F5F0; --ink:#101418; --muted:#6B6F76; --line:#DEDAD1; --card:#FFFFFF;
-  --cam:#D0021B; --lenh:#0B5FBF; --nguy:#E8A400; --ok:#127A4B;
-  --r:14px; --pad:16px;
+  --bg:#FDFCF8; --surface:#FFFFFF; --ink:#14212E; --ink2:#4A5866; --mute:#8A96A3;
+  --line:#E5E2DA; --asphalt:#22323F;
+  --red:#C8102E; --jade:#0E7A57; --saffron:#E9930B; --sky:#1668C2;
+  --pad:18px; --r:16px;
   --sans:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;
-     padding-bottom:env(safe-area-inset-bottom)}
-.wrap{max-width:640px;margin:0 auto;padding:var(--pad)}
-h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.2}
-button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
-:focus-visible{outline:3px solid var(--lenh);outline-offset:2px}
-@media (prefers-reduced-motion:no-preference){.card,.opt{transition:transform .12s ease,border-color .12s ease}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;
+     -webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:0 var(--pad)}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.022em;line-height:1.15}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;text-align:left}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:no-preference){
+  .card,.opt,.dot,.btn{transition:transform .14s cubic-bezier(.2,.8,.3,1),border-color .14s,background .14s,box-shadow .14s}
+  .fade{animation:fade .22s ease both}
+}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ── header ─────────────────────────────────────────── */
-.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:12px;padding-top:12px;padding-bottom:12px}
-.back{font-size:22px;line-height:1;padding:4px 6px;margin-left:-6px}
-.top h2{font-size:17px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.clock{font-family:var(--mono);font-size:18px;font-variant-numeric:tabular-nums}
-.clock.low{color:var(--cam)}
+/* 차선 점선 — 이 앱의 시그니처 */
+.lane{height:6px;border-radius:3px;background:var(--asphalt);
+      -webkit-mask:repeating-linear-gradient(90deg,#000 0 22px,transparent 22px 36px);
+              mask:repeating-linear-gradient(90deg,#000 0 22px,transparent 22px 36px);
+      opacity:.16;margin:22px 0}
 
-/* ── home ───────────────────────────────────────────── */
-.hero{padding:28px 0 20px}
-.hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.hero h1{font-size:34px;margin:8px 0 10px}
-.hero p{margin:0;color:var(--muted);font-size:14px}
-.rule{height:1px;background:var(--line);margin:20px 0}
-.grid{display:grid;gap:12px}
-.card{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
-      border-radius:var(--r);padding:18px}
-.card:active{transform:scale(.99)}
-.card .t{font-weight:800;font-size:18px}
-.card .d{color:var(--muted);font-size:13px;margin-top:4px}
-.card .n{float:right;font-family:var(--mono);font-size:13px;color:var(--muted)}
-.card.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
-.card.primary .d,.card.primary .n{color:#B9BEC6}
-.card.danger{border-color:var(--cam);border-width:2px}
-.card.danger .t{color:var(--cam)}
+/* ── 헤더 ── */
+.top{position:sticky;top:0;z-index:30;background:rgba(253,252,248,.94);backdrop-filter:blur(10px);
+     border-bottom:1px solid var(--line)}
+.top .row{display:flex;align-items:center;gap:12px;height:58px}
+.back{font-size:20px;width:34px;height:34px;display:grid;place-items:center;margin-left:-8px;border-radius:10px}
+.back:active{background:var(--line)}
+.top h2{font-size:16px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clock{font-family:var(--mono);font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;
+       background:var(--asphalt);color:#fff;padding:6px 11px;border-radius:9px}
+.clock.low{background:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.62}}
+.pbar{height:3px;background:var(--line)}
+.pbar i{display:block;height:100%;background:var(--sky);width:0;transition:width .25s}
 
-/* ── question ───────────────────────────────────────── */
-.qmeta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
-.tag{border:1px solid var(--line);border-radius:99px;padding:2px 9px}
-.tag.crit{color:#fff;background:var(--cam);border-color:var(--cam);font-weight:600}
-.qtext{font-size:19px;font-weight:600;line-height:1.45;margin:0 0 14px}
-.qimg{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:14px;display:block}
-.opts{display:grid;gap:10px}
-.opt{display:flex;gap:12px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);
-     border-radius:12px;padding:14px}
-.opt .k{font-family:var(--mono);font-weight:500;color:var(--muted);flex:none}
-.opt.sel{border-color:var(--lenh);background:#F0F6FF}
-.opt.sel .k{color:var(--lenh)}
-.opt.right{border-color:var(--ok);background:#EFF8F3}
-.opt.right .k{color:var(--ok)}
-.opt.wrong{border-color:var(--cam);background:#FDF0F1}
-.opt.wrong .k{color:var(--cam)}
-.verdict{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600}
-.verdict.y{background:#EFF8F3;color:var(--ok)}
-.verdict.n{background:#FDF0F1;color:var(--cam)}
+/* ── 홈 ── */
+.hero{padding:38px 0 4px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+         letter-spacing:.16em;text-transform:uppercase;color:var(--red);
+         border:1.5px solid var(--red);border-radius:99px;padding:5px 12px}
+.hero h1{font-size:clamp(30px,8vw,40px);margin:16px 0 12px}
+.hero p{margin:0;color:var(--ink2);font-size:14.5px}
+.hero b{font-family:var(--mono);font-weight:600;color:var(--ink)}
 
-/* ── nav / grid ─────────────────────────────────────── */
-.navbar{position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:12px 0 max(12px,env(safe-area-inset-bottom))}
-.navbar .wrap{display:flex;gap:10px;padding-top:0;padding-bottom:0}
-.btn{flex:1;border-radius:12px;padding:14px;font-weight:700;text-align:center;border:1.5px solid var(--line);background:var(--card)}
-.btn.go{background:var(--lenh);border-color:var(--lenh);color:#fff}
-.btn.fin{background:var(--ink);border-color:var(--ink);color:#fff}
-.btn[disabled]{opacity:.4;pointer-events:none}
-.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px;margin:16px 0}
-.dot{aspect-ratio:1;border:1.5px solid var(--line);border-radius:9px;background:var(--card);
-     font-family:var(--mono);font-size:13px;display:grid;place-items:center}
-.dot.done{background:var(--ink);color:#fff;border-color:var(--ink)}
-.dot.now{border-color:var(--lenh);border-width:2.5px}
-.dot.crit{box-shadow:inset 0 0 0 2px var(--cam)}
+.grid{display:grid;gap:13px;padding-bottom:34px}
+.card{position:relative;display:block;width:100%;background:var(--surface);border:1px solid var(--line);
+      border-radius:var(--r);padding:19px 19px 19px 21px;overflow:hidden;
+      box-shadow:0 1px 2px rgba(20,33,46,.04)}
+.card:active{transform:scale(.985)}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--line)}
+.card .t{font-size:19px;font-weight:800;display:flex;align-items:center;gap:9px}
+.card .d{color:var(--ink2);font-size:13.5px;margin-top:5px;line-height:1.45}
+.card .n{position:absolute;right:19px;top:19px;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--mute)}
+.card.dark{background:var(--asphalt);border-color:var(--asphalt);color:#fff}
+.card.dark::before{background:var(--saffron)}
+.card.dark .d{color:#AEBBC7} .card.dark .n{color:#8FA0AF}
+.card.crit::before{background:var(--red)} .card.crit .t{color:var(--red)}
+.card.rev::before{background:var(--saffron)}
+.card.book::before{background:var(--jade)}
+.meter{height:5px;background:var(--line);border-radius:3px;margin-top:13px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--jade);border-radius:3px;transition:width .3s}
 
-/* ── result ─────────────────────────────────────────── */
-.score{text-align:center;padding:30px 0 10px}
-.score .big{font-family:var(--mono);font-size:66px;font-weight:500;line-height:1}
-.score .lab{font-size:22px;font-weight:800;margin-top:6px}
-.score.pass .lab{color:var(--ok)} .score.fail .lab{color:var(--cam)}
-.score .sub{color:var(--muted);font-size:14px;margin-top:6px}
+/* ── 문제 ── */
+.qhead{display:flex;align-items:center;gap:7px;margin:22px 0 12px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;
+      border:1.5px solid var(--line);color:var(--ink2);border-radius:99px;padding:4px 10px}
+.chip.red{background:var(--red);border-color:var(--red);color:#fff}
+.qtext{font-size:19.5px;font-weight:700;line-height:1.42;margin:0 0 16px;letter-spacing:-.012em}
+.figure{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px;margin-bottom:16px}
+.figure img{width:100%;display:block;border-radius:7px}
+.opts{display:grid;gap:11px}
+.opt{display:flex;gap:13px;align-items:flex-start;width:100%;background:var(--surface);
+     border:1.8px solid var(--line);border-radius:13px;padding:15px 15px 15px 14px;font-size:15.5px;line-height:1.45}
+.opt:active{transform:scale(.99)}
+.opt .k{flex:none;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;
+        font-family:var(--mono);font-size:13px;font-weight:600;background:var(--line);color:var(--ink2);margin-top:1px}
+.opt.sel{border-color:var(--sky);background:#F2F8FF}
+.opt.sel .k{background:var(--sky);color:#fff}
+.opt.right{border-color:var(--jade);background:#EDF8F3}
+.opt.right .k{background:var(--jade);color:#fff}
+.opt.wrong{border-color:var(--red);background:#FDF1F3}
+.opt.wrong .k{background:var(--red);color:#fff}
+.verdict{margin-top:15px;padding:14px 16px;border-radius:13px;font-size:14.5px;font-weight:700;
+         display:flex;gap:10px;align-items:center}
+.verdict.y{background:#EDF8F3;color:var(--jade)}
+.verdict.n{background:#FDF1F3;color:var(--red)}
+.verdict .ico{font-size:17px}
 
-.empty{padding:48px 16px;text-align:center;color:var(--muted)}
-.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
-.err{border:1.5px solid var(--cam);background:#FDF0F1;border-radius:12px;padding:16px;font-size:14px}
+/* ── 하단 바 ── */
+.navbar{position:sticky;bottom:0;z-index:20;background:rgba(253,252,248,.94);backdrop-filter:blur(10px);
+        border-top:1px solid var(--line);padding:11px 0 max(11px,env(safe-area-inset-bottom))}
+.navbar .row{display:flex;gap:10px}
+.btn{flex:1;border:1.8px solid var(--line);background:var(--surface);border-radius:13px;padding:14px;
+     font-weight:700;font-size:15.5px;text-align:center}
+.btn:active{transform:scale(.985)}
+.btn.go{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.fin{background:var(--jade);border-color:var(--jade);color:#fff}
+.btn[disabled]{opacity:.35;pointer-events:none}
+.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px;margin:22px 0 8px}
+.dot{aspect-ratio:1;border:1.8px solid var(--line);border-radius:11px;background:var(--surface);
+     font-family:var(--mono);font-size:13px;font-weight:600;display:grid;place-items:center}
+.dot.done{background:var(--asphalt);color:#fff;border-color:var(--asphalt)}
+.dot.now{border-color:var(--sky);border-width:3px}
+.dot.crit::after{content:'';position:absolute;margin:-22px 0 0 22px;width:7px;height:7px;border-radius:50%;background:var(--red)}
+.dot{position:relative}
+
+/* ── 결과 ── */
+.score{text-align:center;padding:36px 0 8px}
+.badge{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.1em;padding:7px 18px;border-radius:99px}
+.pass .badge{background:var(--jade);color:#fff} .fail .badge{background:var(--red);color:#fff}
+.score .big{font-family:var(--mono);font-weight:600;font-size:76px;line-height:1.05;margin-top:16px}
+.score .big span{font-size:28px;color:var(--mute)}
+.score .sub{color:var(--ink2);font-size:14.5px;margin-top:10px;padding:0 10px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin:22px 0 4px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 12px;text-align:center}
+.stat b{display:block;font-family:var(--mono);font-size:22px;font-weight:600}
+.stat span{font-size:11.5px;color:var(--mute);letter-spacing:.03em}
+
+.empty{padding:60px 20px;text-align:center;color:var(--ink2)}
+.empty b{display:block;color:var(--ink);font-size:18px;margin-bottom:7px}
+.err{border:1.8px solid var(--red);background:#FDF1F3;border-radius:14px;padding:18px;font-size:14.5px;margin-top:30px}
 .err code{font-family:var(--mono);font-size:13px}
 </style>
 </head>
 <body>
 
 <header class="top" id="top" hidden>
-  <div class="wrap">
+  <div class="wrap"><div class="row">
     <button class="back" id="back" aria-label="Quay lại">←</button>
     <h2 id="title"></h2>
     <span class="clock" id="clock" hidden></span>
-  </div>
+  </div></div>
+  <div class="pbar"><i id="pbar"></i></div>
 </header>
 
-<main class="wrap" id="view"></main>
-<nav class="navbar" id="nav" hidden><div class="wrap" id="navInner"></div></nav>
+<main id="view"></main>
+<nav class="navbar" id="nav" hidden><div class="wrap"><div class="row" id="navInner"></div></div></nav>
 
 <script>
-/* ══ storage (an toàn cả khi bị chặn) ══════════════════ */
-const mem = {};
-const store = {
-  get(k){ try{ return JSON.parse(localStorage.getItem(k)) ?? mem[k] ?? null }catch{ return mem[k] ?? null } },
-  set(k,v){ mem[k]=v; try{ localStorage.setItem(k,JSON.stringify(v)) }catch{} }
+const mem={};
+const store={
+  get(k){try{return JSON.parse(localStorage.getItem(k))??mem[k]??null}catch{return mem[k]??null}},
+  set(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
 };
-
-/* ══ dữ liệu ═══════════════════════════════════════════
-   questions.json:
-   { "meta":{...},
-     "questions":[
-       { "id":1, "chapter":1, "text":"...", "options":["...","..."],
-         "answer":2,            // 1-based
-         "critical":false,      // CÂU LIỆT
-         "image":"img/q126.png" // hoặc null
-       } ] }
-   ═════════════════════════════════════════════════════ */
-const CH = {
-  1:{name:'Quy định chung & quy tắc giao thông', pick:8},
-  2:{name:'Văn hóa giao thông, đạo đức lái xe',  pick:1},
-  3:{name:'Kỹ thuật lái xe & cấu tạo sửa chữa',  pick:1},
-  4:{name:'Báo hiệu đường bộ',                   pick:8},
-  5:{name:'Sa hình & xử lý tình huống',          pick:6}
+const CH={
+  1:{name:'Quy định chung & quy tắc giao thông',pick:8},
+  2:{name:'Văn hóa giao thông, đạo đức lái xe',pick:1},
+  3:{name:'Kỹ thuật lái xe & cấu tạo sửa chữa',pick:1},
+  4:{name:'Báo hiệu đường bộ',pick:8},
+  5:{name:'Sa hình & xử lý tình huống',pick:6}
 };
-const EXAM = { n:25, pass:21, minutes:19 };
+const EXAM={n:25,pass:21,minutes:19};
+let QS=[];
+const S={screen:'home',exam:null,study:null,timer:null};
 
-let QS = [];
-const S = { screen:'home', stack:[], exam:null, study:null, timer:null };
+const $=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const setOf=k=>new Set(store.get(k)||[]);
+const mark=(k,id,on)=>{const s=setOf(k);on?s.add(id):s.delete(id);store.set(k,[...s])};
+const record=(id,ok)=>{mark('wrong',id,!ok);if(ok)mark('learned',id,true)};
 
 async function boot(){
   try{
-    const r = await fetch('questions.json',{cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const d = await r.json();
-    QS = (d.questions||[]).filter(q=>q && q.text && Array.isArray(q.options) && q.answer);
-    if(!QS.length) throw new Error('Bộ câu hỏi trống');
+    const r=await fetch('questions.json',{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    QS=(d.questions||[]).filter(q=>q&&q.text&&Array.isArray(q.options)&&q.answer);
+    if(!QS.length)throw new Error('Bộ câu hỏi trống');
     home();
   }catch(e){
-    document.getElementById('view').innerHTML =
-      `<div class="err"><b>Chưa tải được bộ câu hỏi.</b><br>
-       Đặt tệp <code>questions.json</code> cạnh <code>index.html</code> rồi tải lại trang.<br><br>
-       Chi tiết: <code>${String(e.message||e)}</code></div>`;
+    $('view').innerHTML=`<div class="wrap"><div class="err"><b>Chưa tải được bộ câu hỏi.</b><br>
+      Đặt <code>questions.json</code> cạnh <code>index.html</code> rồi tải lại trang.<br><br>
+      <code>${esc(e.message||e)}</code></div></div>`;
   }
 }
-
-/* ══ tiện ích ══════════════════════════════════════════ */
-const byId = id => document.getElementById(id);
-const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
-const wrongSet = () => new Set(store.get('wrong')||[]);
-const markWrong = (id,bad) => { const s=wrongSet(); bad? s.add(id) : s.delete(id); store.set('wrong',[...s]); };
-const esc = s => String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-
-function chrome(title,{back=true,clock=false}={}){
-  byId('top').hidden=false; byId('title').textContent=title;
-  byId('back').style.visibility = back?'visible':'hidden';
-  byId('clock').hidden=!clock;
+function chrome(t,{clock=false,prog=null}={}){
+  $('top').hidden=false;$('title').textContent=t;$('clock').hidden=!clock;
+  $('pbar').style.width=prog==null?'0%':(prog*100)+'%';
 }
-function nav(html){ const n=byId('nav'); if(!html){n.hidden=true;return;} n.hidden=false; byId('navInner').innerHTML=html; }
+function nav(h){const n=$('nav');if(!h){n.hidden=true;return}n.hidden=false;$('navInner').innerHTML=h}
+function view(h){$('view').innerHTML=`<div class="wrap fade">${h}</div>`}
 
-/* ══ màn hình chính ════════════════════════════════════ */
+/* ── 홈 ── */
 function home(){
-  S.screen='home'; stopTimer(); byId('top').hidden=true; nav('');
-  const w = wrongSet().size, crit = QS.filter(q=>q.critical).length;
-  byId('view').innerHTML = `
+  S.screen='home';stopTimer();$('top').hidden=true;nav('');
+  const learned=setOf('learned'),wrong=setOf('wrong');
+  const crit=QS.filter(q=>q.critical);
+  const critDone=crit.filter(q=>learned.has(q.id)).length;
+  const pct=Math.round(learned.size/QS.length*100);
+  view(`
     <section class="hero">
-      <div class="kicker">Hạng A1 · A</div>
-      <h1>Ôn thi lý thuyết lái xe mô tô</h1>
-      <p>${QS.length} câu · đề thi ${EXAM.n} câu / ${EXAM.minutes} phút · đạt ${EXAM.pass}/${EXAM.n} và không sai câu điểm liệt</p>
+      <span class="eyebrow">Hạng A1 · A</span>
+      <h1>Ôn thi lý thuyết<br>lái xe mô tô</h1>
+      <p>Đề thi <b>25</b> câu trong <b>19</b> phút · đạt <b>21/25</b> và không sai câu điểm liệt</p>
     </section>
-    <div class="rule"></div>
+    <div class="lane"></div>
     <div class="grid">
-      <button class="card primary" data-go="exam">
-        <span class="n">${EXAM.minutes}′</span>
+      <button class="card dark" data-go="exam"><span class="n">19 phút</span>
         <div class="t">Thi thử</div>
-        <div class="d">Đề ngẫu nhiên đúng cấu trúc thi thật, có bấm giờ</div>
-      </button>
-      <button class="card danger" data-go="crit">
-        <span class="n">${crit}</span>
+        <div class="d">Đề ngẫu nhiên đúng cấu trúc thi thật, có bấm giờ và chấm điểm</div></button>
+
+      <button class="card crit" data-go="crit"><span class="n">${critDone}/${crit.length}</span>
         <div class="t">Câu điểm liệt</div>
-        <div class="d">Sai một câu là trượt — học nhóm này trước</div>
-      </button>
-      <button class="card" data-go="study">
-        <span class="n">${QS.length}</span>
+        <div class="d">Sai một câu là trượt ngay — học kỹ nhóm này trước tiên</div>
+        <div class="meter"><i style="width:${crit.length?critDone/crit.length*100:0}%"></i></div></button>
+
+      <button class="card book" data-go="study"><span class="n">${pct}%</span>
         <div class="t">Học theo chương</div>
-        <div class="d">Xem đáp án ngay sau khi chọn</div>
-      </button>
-      <button class="card" data-go="wrong">
-        <span class="n">${w}</span>
+        <div class="d">${QS.length} câu, xem đáp án ngay sau khi chọn</div>
+        <div class="meter"><i style="width:${pct}%"></i></div></button>
+
+      <button class="card rev" data-go="wrong"><span class="n">${wrong.size}</span>
         <div class="t">Câu đã làm sai</div>
-        <div class="d">${w? 'Làm lại cho tới khi đúng' : 'Chưa có câu nào — làm thử một đề đi'}</div>
-      </button>
-    </div>`;
-  byId('view').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{
+        <div class="d">${wrong.size?'Làm lại tới khi đúng thì câu đó tự rời khỏi đây':'Chưa có câu nào — thử một đề đi'}</div></button>
+    </div>`);
+  $('view').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{
     const g=b.dataset.go;
-    if(g==='exam') startExam();
-    if(g==='crit') startStudy(QS.filter(q=>q.critical),'Câu điểm liệt');
-    if(g==='study') chapters();
-    if(g==='wrong'){ const s=wrongSet(); startStudy(QS.filter(q=>s.has(q.id)),'Câu đã làm sai'); }
+    if(g==='exam')startExam();
+    if(g==='crit')startStudy(QS.filter(q=>q.critical),'Câu điểm liệt');
+    if(g==='study')chapters();
+    if(g==='wrong'){const w=setOf('wrong');startStudy(QS.filter(q=>w.has(q.id)),'Câu đã làm sai')}
   });
 }
-
 function chapters(){
-  S.screen='chapters'; chrome('Học theo chương'); nav('');
-  byId('view').innerHTML = '<div class="grid" style="padding-top:16px">' + Object.entries(CH).map(([k,v])=>{
-    const n = QS.filter(q=>String(q.chapter)===k).length;
-    return `<button class="card" data-ch="${k}"><span class="n">${n}</span>
-            <div class="t">Chương ${k}</div><div class="d">${v.name}</div></button>`;
-  }).join('') + '</div>';
-  byId('view').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>{
-    const k=b.dataset.ch;
-    startStudy(QS.filter(q=>String(q.chapter)===k), 'Chương '+k);
-  });
+  S.screen='chapters';chrome('Học theo chương');nav('');
+  const learned=setOf('learned');
+  view('<div class="grid" style="padding-top:22px">'+Object.entries(CH).map(([k,v])=>{
+    const list=QS.filter(q=>String(q.chapter)===k);
+    const done=list.filter(q=>learned.has(q.id)).length;
+    return `<button class="card book" data-ch="${k}"><span class="n">${done}/${list.length}</span>
+      <div class="t">Chương ${k}</div><div class="d">${v.name}</div>
+      <div class="meter"><i style="width:${list.length?done/list.length*100:0}%"></i></div></button>`;
+  }).join('')+'</div>');
+  $('view').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>
+    startStudy(QS.filter(q=>String(q.chapter)===b.dataset.ch),'Chương '+b.dataset.ch));
 }
 
-/* ══ chế độ học ════════════════════════════════════════ */
+/* ── 학습 ── */
 function startStudy(list,title){
-  if(!list.length){
-    S.screen='study'; chrome(title); nav('');
-    byId('view').innerHTML='<div class="empty"><b>Không có câu nào ở đây.</b>Chọn mục khác ở trang chính.</div>';
-    return;
-  }
-  S.study={list,i:0,title,picked:null}; S.screen='study'; drawStudy();
+  S.screen='study';
+  if(!list.length){chrome(title);nav('');
+    view('<div class="empty"><b>Không có câu nào ở đây.</b>Quay lại trang chính và chọn mục khác.</div>');return}
+  S.study={list,i:0,title,picked:null};drawStudy();
 }
 function drawStudy(){
-  const st=S.study, q=st.list[st.i];
-  chrome(`${st.title} · ${st.i+1}/${st.list.length}`);
-  byId('view').innerHTML = qHTML(q, st.picked, true);
-  byId('view').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
-    if(st.picked) return;
-    st.picked = +o.dataset.i;
-    markWrong(q.id, st.picked!==q.answer);
-    drawStudy();
+  const st=S.study,q=st.list[st.i];
+  chrome(`${st.title} · ${st.i+1}/${st.list.length}`,{prog:(st.i+1)/st.list.length});
+  view(qHTML(q,st.picked,true));
+  $('view').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
+    if(st.picked)return;
+    st.picked=+o.dataset.i;record(q.id,st.picked===q.answer);drawStudy();
   });
+  const last=st.i===st.list.length-1;
   nav(`<button class="btn" id="prev" ${st.i?'':'disabled'}>Câu trước</button>
-       <button class="btn go" id="next">${st.i===st.list.length-1?'Xong':'Câu sau'}</button>`);
-  byId('prev').onclick=()=>{ st.i--; st.picked=null; drawStudy(); };
-  byId('next').onclick=()=>{ if(st.i===st.list.length-1) return home(); st.i++; st.picked=null; drawStudy(); };
+       <button class="btn go" id="next">${last?'Hoàn thành':'Câu sau'}</button>`);
+  $('prev').onclick=()=>{st.i--;st.picked=null;drawStudy()};
+  $('next').onclick=()=>{if(last)return home();st.i++;st.picked=null;drawStudy()};
 }
-
 function qHTML(q,picked,reveal){
-  const opts = q.options.map((t,idx)=>{
-    const i=idx+1; let cls='opt';
-    if(picked){
-      if(reveal && i===q.answer) cls+=' right';
-      else if(i===picked) cls+=' wrong';
-    }else if(i===picked) cls+=' sel';
-    return `<button class="${cls}" data-i="${i}"><span class="k">${i}</span><span>${esc(t)}</span></button>`;
+  const opts=q.options.map((t,x)=>{
+    const i=x+1;let c='opt';
+    if(picked){ if(reveal&&i===q.answer)c+=' right'; else if(i===picked)c+=reveal?' wrong':' sel'; }
+    return `<button class="${c}" data-i="${i}"><span class="k">${i}</span><span>${esc(t)}</span></button>`;
   }).join('');
-  const verdict = (picked&&reveal)
-    ? `<div class="verdict ${picked===q.answer?'y':'n'}">${picked===q.answer?'Đúng':'Sai — đáp án đúng là ý '+q.answer}</div>` : '';
-  return `<div style="padding-top:16px">
-      <div class="qmeta"><span class="tag">Câu ${q.id}</span>${q.critical?'<span class="tag crit">ĐIỂM LIỆT</span>':''}</div>
-      <p class="qtext">${esc(q.text)}</p>
-      ${q.image?`<img class="qimg" src="${q.image}" alt="Hình câu ${q.id}" loading="lazy">`:''}
-      <div class="opts">${opts}</div>${verdict}
-    </div>`;
+  const v=(picked&&reveal)
+    ? `<div class="verdict ${picked===q.answer?'y':'n'}"><span class="ico">${picked===q.answer?'✓':'✕'}</span>
+       <span>${picked===q.answer?'Chính xác':'Chưa đúng — đáp án là ý '+q.answer}</span></div>`:'';
+  return `<div class="qhead"><span class="chip">Câu ${q.id}</span>
+            ${q.critical?'<span class="chip red">ĐIỂM LIỆT</span>':''}</div>
+          <p class="qtext">${esc(q.text)}</p>
+          ${q.image?`<div class="figure"><img src="${esc(q.image)}" alt="Hình câu ${q.id}" loading="lazy"></div>`:''}
+          <div class="opts">${opts}</div>${v}`;
 }
 
-/* ══ thi thử ═══════════════════════════════════════════ */
+/* ── 시험 ── */
 function buildPaper(){
-  const crit = shuffle(QS.filter(q=>q.critical)).slice(0,1);
-  const used = new Set(crit.map(q=>q.id));
-  const paper = [...crit];
-  for(const [k,v] of Object.entries(CH)){
-    const pool = shuffle(QS.filter(q=>String(q.chapter)===k && !used.has(q.id)));
-    for(const q of pool.slice(0,v.pick)){ paper.push(q); used.add(q.id); }
+  const crit=shuffle(QS.filter(q=>q.critical)).slice(0,1);
+  const used=new Set(crit.map(q=>q.id));const paper=[...crit];
+  for(const[k,v]of Object.entries(CH)){
+    for(const q of shuffle(QS.filter(q=>String(q.chapter)===k&&!used.has(q.id))).slice(0,v.pick)){
+      paper.push(q);used.add(q.id);}
   }
-  const rest = shuffle(QS.filter(q=>!used.has(q.id)));
-  while(paper.length<EXAM.n && rest.length) paper.push(rest.pop());
+  const rest=shuffle(QS.filter(q=>!used.has(q.id)));
+  while(paper.length<EXAM.n&&rest.length)paper.push(rest.pop());
   return shuffle(paper).slice(0,EXAM.n);
 }
 function startExam(){
   S.exam={paper:buildPaper(),ans:{},i:0,left:EXAM.minutes*60,done:false};
-  S.screen='exam'; drawExam(); tick();
-  S.timer=setInterval(()=>{ if(--S.exam.left<=0){ finish(); } else tick(); },1000);
+  S.screen='exam';drawExam();tick();
+  S.timer=setInterval(()=>{S.exam.left--;S.exam.left<=0?finish():tick()},1000);
 }
-function stopTimer(){ if(S.timer){clearInterval(S.timer);S.timer=null;} }
+function stopTimer(){if(S.timer){clearInterval(S.timer);S.timer=null}}
 function tick(){
-  const t=S.exam?.left ?? 0, c=byId('clock');
-  c.textContent = String(t/60|0).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
-  c.classList.toggle('low', t<=120);
+  const t=Math.max(S.exam?.left??0,0),c=$('clock');
+  c.textContent=String(t/60|0).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+  c.classList.toggle('low',t<=120);
 }
 function drawExam(){
-  const e=S.exam, q=e.paper[e.i];
-  chrome(`Câu ${e.i+1}/${EXAM.n}`,{clock:true});
-  byId('view').innerHTML = qHTML(q, e.ans[q.id]||null, false) + dotsHTML();
-  byId('view').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{ e.ans[q.id]=+o.dataset.i; drawExam(); });
-  byId('view').querySelectorAll('.dot').forEach(d=>d.onclick=()=>{ e.i=+d.dataset.n; drawExam(); });
-  const answered = Object.keys(e.ans).length;
+  const e=S.exam,q=e.paper[e.i],n=Object.keys(e.ans).length;
+  chrome(`Câu ${e.i+1} / ${EXAM.n}`,{clock:true,prog:n/EXAM.n});
+  view(qHTML(q,e.ans[q.id]||null,false)+dots());
+  $('view').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
+    e.ans[q.id]=+o.dataset.i;
+    if(e.i<EXAM.n-1){e.i++;drawExam()}else drawExam();
+  });
+  $('view').querySelectorAll('.dot').forEach(d=>d.onclick=()=>{e.i=+d.dataset.n;drawExam()});
   nav(`<button class="btn" id="prev" ${e.i?'':'disabled'}>Trước</button>
-       ${e.i===EXAM.n-1
-         ? `<button class="btn fin" id="fin">Nộp bài (${answered}/${EXAM.n})</button>`
-         : `<button class="btn go" id="next">Sau</button>`}`);
-  if(byId('prev')) byId('prev').onclick=()=>{e.i--;drawExam();};
-  if(byId('next')) byId('next').onclick=()=>{e.i++;drawExam();};
-  if(byId('fin'))  byId('fin').onclick=()=>{ if(confirm('Nộp bài bây giờ?')) finish(); };
+       ${n===EXAM.n||e.i===EXAM.n-1
+         ?`<button class="btn fin" id="fin">Nộp bài · ${n}/${EXAM.n}</button>`
+         :`<button class="btn go" id="next">Sau</button>`}`);
+  if($('prev'))$('prev').onclick=()=>{e.i--;drawExam()};
+  if($('next'))$('next').onclick=()=>{e.i++;drawExam()};
+  if($('fin'))$('fin').onclick=()=>{
+    const miss=EXAM.n-n;
+    if(miss&&!confirm(`Còn ${miss} câu chưa trả lời. Nộp bài luôn?`))return;
+    if(!miss&&!confirm('Nộp bài bây giờ?'))return;
+    finish();
+  };
 }
-function dotsHTML(){
+function dots(){
   const e=S.exam;
   return '<div class="dots">'+e.paper.map((q,n)=>{
-    let c='dot'; if(e.ans[q.id])c+=' done'; if(n===e.i)c+=' now'; if(q.critical)c+=' crit';
-    return `<button class="${c}" data-n="${n}">${n+1}</button>`;
-  }).join('')+'</div>';
+    let c='dot';if(e.ans[q.id])c+=' done';if(n===e.i)c+=' now';if(q.critical)c+=' crit';
+    return `<button class="${c}" data-n="${n}">${n+1}</button>`}).join('')+'</div>';
 }
 function finish(){
-  stopTimer(); const e=S.exam; e.done=true;
-  let right=0, critBad=false;
-  e.paper.forEach(q=>{
-    const ok = e.ans[q.id]===q.answer;
-    if(ok) right++; else { markWrong(q.id,true); if(q.critical) critBad=true; }
-    if(ok) markWrong(q.id,false);
-  });
-  const pass = right>=EXAM.pass && !critBad;
-  S.screen='result';
-  chrome('Kết quả',{clock:false});
-  byId('view').innerHTML = `
+  stopTimer();const e=S.exam;e.done=true;
+  let right=0,critBad=false;
+  e.paper.forEach(q=>{const ok=e.ans[q.id]===q.answer;
+    if(ok)right++;else if(q.critical)critBad=true;record(q.id,ok)});
+  const wrongList=e.paper.filter(q=>e.ans[q.id]!==q.answer);
+  const pass=right>=EXAM.pass&&!critBad;
+  const used=EXAM.minutes*60-Math.max(e.left,0);
+  S.screen='result';chrome('Kết quả');
+  view(`
     <div class="score ${pass?'pass':'fail'}">
-      <div class="big">${right}<span style="font-size:26px;color:var(--muted)">/${EXAM.n}</span></div>
-      <div class="lab">${pass?'ĐẠT':'KHÔNG ĐẠT'}</div>
-      <div class="sub">${critBad?'Sai câu điểm liệt — trượt ngay dù đúng bao nhiêu câu.'
-                                :`Cần ${EXAM.pass}/${EXAM.n} và không sai câu điểm liệt.`}</div>
+      <span class="badge">${pass?'ĐẠT':'KHÔNG ĐẠT'}</span>
+      <div class="big">${right}<span>/${EXAM.n}</span></div>
+      <div class="sub">${critBad?'Sai câu điểm liệt — trượt ngay dù đúng bao nhiêu câu khác.'
+        :pass?'Đúng chuẩn kỳ sát hạch thật. Giữ nhịp này nhé.'
+        :`Cần đúng ít nhất ${EXAM.pass}/${EXAM.n} và không sai câu điểm liệt.`}</div>
     </div>
-    <div class="rule"></div>
+    <div class="stats">
+      <div class="stat"><b>${right}</b><span>ĐÚNG</span></div>
+      <div class="stat"><b style="color:var(--red)">${EXAM.n-right}</b><span>SAI</span></div>
+      <div class="stat"><b>${String(used/60|0).padStart(2,'0')}:${String(used%60).padStart(2,'0')}</b><span>THỜI GIAN</span></div>
+    </div>
+    <div class="lane"></div>
     <div class="grid">
-      <button class="card" data-r="review"><div class="t">Xem lại cả đề</div><div class="d">Đối chiếu từng câu với đáp án</div></button>
-      <button class="card primary" data-r="again"><div class="t">Thi đề khác</div><div class="d">Bốc lại ${EXAM.n} câu mới</div></button>
-    </div>`;
-  byId('view').querySelector('[data-r="review"]').onclick=()=>startStudy(e.paper,'Xem lại đề');
-  byId('view').querySelector('[data-r="again"]').onclick=startExam;
+      ${wrongList.length?`<button class="card rev" data-r="wrong"><span class="n">${wrongList.length}</span>
+        <div class="t">Xem câu đã sai</div><div class="d">Đọc lại đáp án đúng của riêng những câu này</div></button>`:''}
+      <button class="card book" data-r="all"><div class="t">Xem lại cả đề</div>
+        <div class="d">Đối chiếu từng câu trong ${EXAM.n} câu vừa làm</div></button>
+      <button class="card dark" data-r="again"><div class="t">Thi đề khác</div>
+        <div class="d">Bốc ${EXAM.n} câu mới, bấm giờ lại từ đầu</div></button>
+    </div>`);
+  const go=(s,f)=>{const el=$('view').querySelector(`[data-r="${s}"]`);if(el)el.onclick=f};
+  go('wrong',()=>startStudy(wrongList,'Câu đã sai'));
+  go('all',()=>startStudy(e.paper,'Xem lại đề'));
+  go('again',startExam);
   nav(`<button class="btn" id="hm">Về trang chính</button>`);
-  byId('hm').onclick=home;
+  $('hm').onclick=home;
 }
 
-/* ══ điều hướng ════════════════════════════════════════ */
-byId('back').onclick=()=>{
-  if(S.screen==='exam' && !S.exam.done && !confirm('Thoát bài thi? Kết quả sẽ không được lưu.')) return;
+$('back').onclick=()=>{
+  if(S.screen==='exam'&&!S.exam.done&&!confirm('Thoát bài thi? Kết quả sẽ không được lưu.'))return;
   stopTimer();
-  S.screen==='study'&&S.study?.title?.startsWith('Chương') ? chapters() : home();
+  (S.screen==='study'&&S.study?.title?.startsWith('Chương'))?chapters():home();
 };
-window.addEventListener('beforeunload',e=>{ if(S.screen==='exam'&&!S.exam.done){e.preventDefault();e.returnValue='';} });
+addEventListener('beforeunload',e=>{if(S.screen==='exam'&&!S.exam.done){e.preventDefault();e.returnValue=''}});
 boot();
 </script>
 </body>
